@@ -125,13 +125,15 @@ const BlogDetailsPage: FC<IProperties> = ({ id }) => {
             {post?.title}
           </h1>
           <div className="flex items-stretch justify-start">
-            <Image
-              src={`${post?.avatar as string}`}
-              alt="Nora Nora"
-              className="mr-3 h-8 w-8 rounded-full object-cover sm:h-10 sm:w-10"
-              width={40}
-              height={40}
-            />
+            <div className="flex items-center justify-center">
+              <Image
+                src={`${post?.avatar as string}`}
+                alt="Nora Nora"
+                className="mr-3 h-8 w-8 rounded-full object-cover sm:h-10 sm:w-10"
+                width={40}
+                height={40}
+              />
+            </div>
             <div>
               <p className="mb-1 text-lg font-medium text-neutral-dark-2 sm:mb-3 sm:text-xl">
                 {post?.author as string}
