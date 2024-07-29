@@ -4,26 +4,26 @@ import { MessageCircleMore, ThumbsUpIcon } from "lucide-react";
 import { Session } from "next-auth";
 import Image from "next/image";
 import Link from "next/link";
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 
 import Comment, {
   CommentProperties,
 } from "~/components/common/comment-component";
 import { sampleComments } from "~/components/common/comment-component/sample-comments";
-import LoadingSpinner from "~/components/miscellaneous/loading-spinner";
 import BlogLabel from "../_components/label";
+import { articlesData } from "../data/dummy-article-data";
 import RelatedArticle from "./RelatedArticle";
 
-interface BlogPost {
-  id: number;
-  title: string;
-  date: string;
-  readTime: string;
-  category: string;
-  image: string;
-  labelClassName: string;
-  author: string;
-}
+// interface BlogPost {
+//   id: number;
+//   title: string;
+//   date: string;
+//   readTime: string;
+//   category: string;
+//   image: string;
+//   labelClassName: string;
+//   author: string;
+// }
 
 const mockSession: Session = {
   user: {
@@ -38,56 +38,56 @@ interface IProperties {
 }
 
 const BlogDetailsPage: FC<IProperties> = ({ id }) => {
-  const [post, setPost] = useState<BlogPost | undefined>();
-  const [isLoading, setIsLoading] = useState(true);
+  // const [post, setPost] = useState<BlogPost | undefined>();
+  // const [isLoading, setIsLoading] = useState(true);
   const [newComment, setNewComment] = useState("");
 
   const [comments, setComments] =
     useState<Omit<CommentProperties, "session">[]>(sampleComments);
+  const post = articlesData.find((item) => item.id === id);
+  // useEffect(() => {
+  //   const fetchPost = () => {
+  //     setTimeout(() => {
+  //       const storedPost = localStorage.getItem("currentBlogPost");
+  //       if (storedPost) {
+  //         try {
+  //           const parsedPost = JSON.parse(storedPost) as BlogPost;
+  //           if (parsedPost.id === Number.parseInt(id as string, 10)) {
+  //             setPost(parsedPost);
+  //           } else {
+  //             setPost(undefined);
+  //           }
+  //         } catch (error) {
+  //           throw new Error("Error parsing stored blog post", { cause: error });
+  //         }
+  //       } else {
+  //         setPost(undefined);
+  //       }
+  //       setIsLoading(false);
+  //     }, 1000);
+  //   };
 
-  useEffect(() => {
-    const fetchPost = () => {
-      setTimeout(() => {
-        const storedPost = localStorage.getItem("currentBlogPost");
-        if (storedPost) {
-          try {
-            const parsedPost = JSON.parse(storedPost) as BlogPost;
-            if (parsedPost.id === Number.parseInt(id as string, 10)) {
-              setPost(parsedPost);
-            } else {
-              setPost(undefined);
-            }
-          } catch (error) {
-            throw new Error("Error parsing stored blog post", { cause: error });
-          }
-        } else {
-          setPost(undefined);
-        }
-        setIsLoading(false);
-      }, 1000);
-    };
+  //   if (typeof window !== "undefined") {
+  //     fetchPost();
+  //   }
+  // }, [id]);
 
-    if (typeof window !== "undefined") {
-      fetchPost();
-    }
-  }, [id]);
-
-  if (isLoading || !post) {
-    return (
-      <div className="my-24 flex h-full items-center justify-center">
-        <div className="text-center text-xl font-semibold text-gray-700">
-          {isLoading ? (
-            <>
-              <span className="animate-pulse">Loading ...</span>
-              <LoadingSpinner className="size-4 animate-spin sm:size-5" />
-            </>
-          ) : (
-            "Blog post not found"
-          )}
-        </div>
-      </div>
-    );
-  }
+  // if (isLoading || !post) {
+  //   return (
+  //     <div className="my-24 flex h-full items-center justify-center">
+  //       <div className="text-center text-xl font-semibold text-gray-700">
+  //         {isLoading ? (
+  //           <>
+  //             <span className="animate-pulse">Loading ...</span>
+  //             <LoadingSpinner className="size-4 animate-spin sm:size-5" />
+  //           </>
+  //         ) : (
+  //           "Blog post not found"
+  //         )}
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   const handleSubmit = () => {
     if (newComment.trim()) {
@@ -119,14 +119,14 @@ const BlogDetailsPage: FC<IProperties> = ({ id }) => {
       <div className="mb-6 flex flex-col items-center justify-center gap-6 py-5 md:mb-12 md:flex-row md:justify-between">
         <div>
           <div className="mb-2.5 flex justify-start">
-            <BlogLabel label={post.category} />
+            <BlogLabel label={post?.tag as string} />
           </div>
           <h1 className="mb-6 text-2xl font-bold text-neutral-dark-2 sm:text-3xl md:text-5xl md:leading-[56px]">
-            {post.title}
+            {post?.title}
           </h1>
           <div className="flex items-stretch justify-start">
             <Image
-              src={post.image}
+              src={`${post?.avatar as string}`}
               alt="Nora Nora"
               className="mr-3 h-8 w-8 rounded-full object-cover sm:h-10 sm:w-10"
               width={40}
@@ -134,11 +134,12 @@ const BlogDetailsPage: FC<IProperties> = ({ id }) => {
             />
             <div>
               <p className="mb-1 text-lg font-medium text-neutral-dark-2 sm:mb-3 sm:text-xl">
-                {post.author}
+                {post?.author as string}
               </p>
               <div className="flex flex-col items-start justify-start gap-4 md:flex-row md:items-center">
                 <p className="text-xs text-neutral-dark-1 sm:text-sm">
-                  {post.readTime} mins Read {"   •   "} {post.date}
+                  {post?.minsRead as string} mins Read {"   •   "}{" "}
+                  {post?.datePublished as string}
                 </p>
                 <div className="flex items-center justify-start">
                   <div className="mr-4 flex items-center">
@@ -157,9 +158,11 @@ const BlogDetailsPage: FC<IProperties> = ({ id }) => {
         <div className="w-full max-w-[620px]">
           <div className="mb-3 h-[300px] w-full overflow-hidden">
             <Image
-              src={post.image}
+              src={`${post?.thumbnail as string}`}
               alt="ENIAC computer, one of the first general-purpose electronic digital computers"
               className="h-full w-full object-cover"
+              width={629}
+              height={300}
             />
           </div>
           <p className="neutral-dark-1">
