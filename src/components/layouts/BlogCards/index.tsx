@@ -24,7 +24,7 @@ const BlogCard: React.FC<BlogCardProperties> = ({
   return (
     <Card
       onClick={onClick}
-      className="w-full max-w-[400px] cursor-pointer rounded-none shadow-none md:max-w-[280px]"
+      className="w-full max-w-[400px] cursor-pointer rounded-none shadow-none"
     >
       <div className="relative h-[260px] w-full hover:cursor-pointer md:h-40">
         <Image
