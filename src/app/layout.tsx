@@ -5,6 +5,7 @@ import "./globals.css";
 
 import Providers from "~/components/providers";
 import { Toaster } from "~/components/ui/toaster";
+import ReactQueryProvider from "~/providers/ReactQueryProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
@@ -22,7 +23,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <div className="mx-auto w-full max-w-[1440px]">
           <Providers />
-          {children}
+          <ReactQueryProvider>{children}</ReactQueryProvider>
           <Toaster />
         </div>
       </body>
