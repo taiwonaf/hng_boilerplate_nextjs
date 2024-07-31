@@ -21,7 +21,6 @@ const googleAuth = async (profile: Profile) => {
     const response = await axios.post(`${apiUrl}/api/v1/auth/google`, {
       id_token: profile.id_token,
     });
-
     return response.data;
   } catch (error) {
     return error;

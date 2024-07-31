@@ -8,9 +8,10 @@ export type User = {
 };
 
 const defaultOptions = {
-  baseURL: `${process.env.API_URL}/api/v1/`,
+  baseURL: `https://deployment.api-php.boilerplate.hng.tech/api/v1/`,
+  // baseURL: `${process.env.API_URL}/api/v1/`,
   headers: {
-    Application: "application/json",
+    "Application": "application/json",
   },
 };
 

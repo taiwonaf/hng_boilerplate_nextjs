@@ -17,6 +17,8 @@ const Navbar = () => {
   const version = "v1.0";
   useVersionSync(version);
 
+  console.log(session)
+
   const handleScrollEvent = () => {
     if (window.scrollY > 1) {
       setIsScrolling(true);
@@ -43,7 +45,6 @@ const Navbar = () => {
         )}
       >
         <MobileNav />
-
         <Logo />
         <div className="hidden w-full items-center justify-center gap-x-4 md:flex lg:gap-x-8 xl:gap-x-16">
           {NAV_LINKS.map((item, index) => {
