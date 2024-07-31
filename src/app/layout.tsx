@@ -5,6 +5,7 @@ import "./globals.css";
 
 import Providers from "~/components/providers";
 import { Toaster } from "~/components/ui/toaster";
+import AuthProvider from "~/contexts/authContext";
 import ReactQueryProvider from "~/providers/ReactQueryProvider";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -21,9 +22,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className="mx-auto w-full">
+        <div className="mx-auto h-full w-full">
           <Providers />
-          <ReactQueryProvider>{children}</ReactQueryProvider>
+          <ReactQueryProvider>
+            <AuthProvider>{children}</AuthProvider>
+          </ReactQueryProvider>
           <Toaster />
         </div>
       </body>
