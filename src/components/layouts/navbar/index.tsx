@@ -20,7 +20,6 @@ interface User {
 const Navbar = () => {
   const [scrolling, setIsScrolling] = useState<boolean>(false);
   const { data: session, status } = useSession();
-
   const version = "v1.0";
   useVersionSync(version);
 
