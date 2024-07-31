@@ -1,9 +1,16 @@
-import BlogDetailsPage from "./BlogDetailsPage";
+import { ISingleBlogResponse } from "~/types/blog.model";
+import { getSingleBlog } from "~/utils/blogApiRequests";
+import BlogDetailsPage from "./_components/BlogDetailsPage";
 
-const page = ({ params }: { params: { id: string } }) => {
+const page = async ({ params }: { params: { id: string } }) => {
+  const id = params.id;
+  const blogInitialData = await getSingleBlog(id);
   return (
     <div>
-      <BlogDetailsPage id={params.id} />
+      <BlogDetailsPage
+        id={id}
+        blogInitial={blogInitialData as ISingleBlogResponse}
+      />
     </div>
   );
 };
